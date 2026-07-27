@@ -1267,12 +1267,12 @@ You're not viewing the latest stable version.
 <p>Repeat <code>--catalog</code> to assign multiple ordered catalogs. The command stores those references in the new cluster's <code>catalogs</code> list. Without <code>--catalog</code>, it assigns kubara's general catalog.</p>
 <p>Later <code>schema</code>, <code>generate</code>, and <code>bootstrap</code> runs automatically resolve the catalogs configured for that spoke. Additional <code>--catalog</code> values are appended temporarily and are not persisted.</p>
 <h3 id="optional-ingress-annotation-overrides">Optional: Ingress annotation overrides</h3>
-<p>Each service supports an optional <code>ingress.annotations</code> map that is merged with kubara's default annotations when rendering the service values files.
+<p>Each service supports an optional <code>networking.annotations</code> map that is merged with kubara's default annotations when rendering the service values files.
 This is useful when you use an ingress controller other than Traefik that requires controller-specific annotations.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">kubePrometheusStack</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">kube-prometheus-stack</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enabled</span>
-<span class="w">    </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">networking</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/auth-url</span><span class="p">:</span><span class="w"> </span><span class="s">"https://$host/oauth2/auth"</span>
 <span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/auth-signin</span><span class="p">:</span><span class="w"> </span><span class="s">"https://$host/oauth2/start?rd=$escaped_request_uri"</span>

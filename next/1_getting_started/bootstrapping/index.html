@@ -3034,7 +3034,7 @@ You can set a custom output file:</p>
 <p><code>terraform.projectId</code> is provider-specific. For <code>t-cloud-public</code>, use the T Cloud Public tenant/project name that the Terraform provider expects as <code>tenant_name</code>, not a UUID.</p>
 <p><code>bootstrapCatalog</code> is optional and defaults to kubara's versioned bootstrap catalog. It provides the fixed <code>argo-cd</code> and <code>bootstrap-crds</code> services, which do not appear under the configurable <code>services</code> map. Each cluster's ordered <code>catalogs</code> list provides its configurable platform services and templates.</p>
 <p><code>ingressClassName</code> defaults to <code>traefik</code>. Set it explicitly when using a different ingress controller.
-Each service also accepts an optional <code>ingress.annotations</code> map under <code>services.&lt;service&gt;.ingress.annotations</code> that is merged with kubara's defaults, allowing you to add controller-specific annotations without overwriting the full set.
+Each service also accepts an optional <code>networking.annotations</code> map under <code>services.&lt;service&gt;.networking.annotations</code> that is merged with kubara's defaults, allowing you to add controller-specific annotations without overwriting the full set.
 User-provided annotations are merged on top using <code>mergeOverwrite</code>: equal keys are overwritten, while kubara default keys that are not present in the override remain.</p>
 <p>kubara generates resources in two stages:</p>
 <ul>

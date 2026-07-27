@@ -3238,8 +3238,7 @@ Please refer to the official velero docs - feel free to contribute if you have s
 <h2 id="part-4-apply-the-secretstore-bootstrap-kubara">Part 4: Apply the SecretStore &amp; Bootstrap Kubara</h2>
 <p>The <code>Secretstore</code> can be passed directly into the bootstrap process instead of applying via kubectl (just adjust the path/filename in <code>--with-es-css-file</code> if it differs):</p>
 <div class="highlight"><span class="filename">kubara bootstrap</span><pre><span></span><code>kubara<span class="w"> </span>bootstrap<span class="w"> </span>gcp<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--with-es-css-file<span class="w"> </span>secretstore.yaml<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--with-es-crds<span class="w"> </span>--with-prometheus-crds
+<span class="w">  </span>--with-es-css-file<span class="w"> </span>secretstore.yaml
 </code></pre></div>
 <p>Now you should have a successfully deployed kubara installation.
 Wait some minutes and check if all helm charts are synced and green.
