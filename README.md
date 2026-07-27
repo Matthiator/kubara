@@ -35,9 +35,12 @@ See [INSTALLATION.md](docs/content/1_getting_started/installation.md) for Linux,
 
 ```text
 init       Initialize a new kubara directory
-generate   generates files from embedded templates and config (default: both Helm and Terraform).
-bootstrap  Bootstrap ArgoCD onto the specified cluster with optional external-secrets and prometheus CRD
+generate   Generate Helm and Terraform artifacts from configured catalog templates.
+bootstrap  Bootstrap prerequisite CRDs and Argo CD onto the specified cluster
 schema     Generate JSON schema file for config structure
+agents     Scaffold an onboarding file for AI coding assistants (AGENTS.md)
+catalog    Manage platform catalogs
+cluster    Manage your kubara cluster configurations
 help, h    Shows a list of commands or help for one command
 ```
 
