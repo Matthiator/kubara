@@ -2908,6 +2908,7 @@ You're not viewing the latest stable version.
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oci://ghcr.io/acme/platform-catalogs/security:2.1.0</span>
 </code></pre></div>
 <p><code>bootstrapCatalog</code> is optional. When omitted or empty, kubara uses its versioned default bootstrap catalog. The bootstrap services <code>argo-cd</code> and <code>bootstrap-crds</code> are always part of the foundation and are not configurable entries under <code>clusters[].services</code>.</p>
+<p>The official bootstrap and general catalogs are maintained in <a href="https://github.com/kubara-io/catalogs" target="_blank" rel="noopener">kubara-io/catalogs</a>; choose released versions from <a href="https://github.com/kubara-io/catalogs/releases" target="_blank" rel="noopener">its releases</a>.</p>
 <p>Use <code>--catalog</code> to add catalogs for a command:</p>
 <p>Examples:</p>
 <div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>schema<span class="w"> </span>--catalog<span class="w"> </span>oci://ghcr.io/acme/platform-catalogs/my-catalog:1.2.3
