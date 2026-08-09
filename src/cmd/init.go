@@ -12,6 +12,7 @@ import (
 	"github.com/kubara-io/kubara/internal/localmode"
 	"github.com/kubara-io/kubara/internal/utils"
 	"github.com/kubara-io/kubara/internal/workflow"
+	"golang.org/x/term"
 
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v3"
@@ -128,6 +129,11 @@ func (flags *InitFlags) AddFlags(cmd *cli.Command) {
 }
 
 func (o *InitOptions) Run() error {
+	if term.IsTerminal(int(os.Stdout.Fd())) {
+		for _, line := range kubaraASCII {
+			fmt.Println(colorEscSeq + line)
+		}
+	}
 	es := envconfig.NewEnvStore(o.dotEnvFilePath, ".", o.envVarPrefix)
 	cs := config.NewConfigStore(o.cwd, o.configFilePath, o.catalogLoadOptions())
 
