@@ -2818,7 +2818,7 @@ You're not viewing the latest stable version.
 <li><code>kind</code> for the Kubernetes cluster</li>
 <li><code>cloud-provider-kind</code> for <code>LoadBalancer</code> IP assignment</li>
 <li>Traefik for ingress</li>
-<li>OpenBao in dev mode as a temporary secret backend for <code>external-secrets</code></li>
+<li>OpenBao in standalone mode with persistent local storage and automatic unsealing as the secret backend for <code>external-secrets</code></li>
 </ul>
 <h2 id="host-prerequisites">Host prerequisites</h2>
 <p><code>kubara bootstrap --local</code> checks for these binaries on your host:</p>
@@ -2836,7 +2836,7 @@ You're not viewing the latest stable version.
 <li><code>.local/kind.kubeconfig</code>: kubeconfig exported from <code>kind</code></li>
 <li><code>.local/kind-config.yaml</code>: the generated <code>kind</code> cluster definition</li>
 <li><code>.local/generate.env</code>: environment snapshot used for the local <code>kubara generate --helm</code> rerun</li>
-<li><code>.local/openbao/values.yaml</code>: Helm values for the OpenBao dev setup</li>
+<li><code>.local/openbao/values.yaml</code>: Helm values for the persistent OpenBao setup</li>
 <li><code>.local/external-secrets/clustersecretstore.yaml</code>: local <code>ClusterSecretStore</code> manifest</li>
 </ul>
 <p>kubara also ensures <code>.gitignore</code> contains the local runtime entries so these files do not become part of your intended GitOps state.</p>
@@ -2891,12 +2891,19 @@ That is done so workloads inside the cluster can trust the same CA bundle when t
 <h3 id="5-install-and-configure-openbao">5. Install and configure OpenBao</h3>
 <p>kubara installs the OpenBao Helm chart with local values that:</p>
 <ul>
-<li>Enable OpenBao dev mode</li>
-<li>Use the fixed dev root token <code>root</code></li>
+<li>Enable standalone mode with a 2 GiB persistent volume and the file storage backend</li>
+<li>Add an auto-unsealer sidecar that uses the same OpenBao image as the server</li>
+<li>Generate a random initial root token and one unseal key</li>
 <li>Expose OpenBao through Traefik without TLS</li>
 <li>Disable the injector</li>
 <li>Enable the UI</li>
 </ul>
+<p>The sidecar and server share the OpenBao data volume. On the first start, the sidecar runs <code>bao operator init</code> with one key share and a threshold of one, then stores the resulting initialization data at <code>/openbao/data/local-bootstrap/init.json</code>. On later starts it reads the key from that file and runs <code>bao operator unseal</code> whenever the server is sealed.</p>
+<p>kubara reads the generated root token from the same file while configuring the secret engine, policies, Kubernetes authentication, and initial local secrets. You can retrieve the token for the local UI with:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>--kubeconfig<span class="w"> </span>.local/kind.kubeconfig<span class="w"> </span>-n<span class="w"> </span>openbao<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>openbao-0<span class="w"> </span>-c<span class="w"> </span>openbao<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;tr -d &#39;\n\r&#39; &lt; /openbao/data/local-bootstrap/init.json | sed -n &#39;s/.*\&quot;root_token\&quot;[[:space:]]*:[[:space:]]*\&quot;\([^\&quot;]*\)\&quot;.*/\1/p&#39;&quot;</span>
+</code></pre></div>
+<p>There is also a small interruption window during the first initialization: OpenBao may become initialized before the sidecar has atomically moved the generated credentials to <code>/openbao/data/local-bootstrap/init.json</code>. If the sidecar reports that OpenBao is initialized but this file is missing, the unseal key is unrecoverable. Delete the local kind cluster and bootstrap it again.</p>
 <p>After the pod is ready, kubara configures OpenBao for the local <code>external-secrets</code> flow:</p>
 <ol>
 <li>Enable the <code>kv-v2</code> secret engine at <code>kv/</code></li>
@@ -2953,15 +2960,12 @@ That is done so workloads inside the cluster can trust the same CA bundle when t
 <h2 id="important-local-only-tradeoffs">Important local-only tradeoffs</h2>
 <p>This setup is intentionally relaxed:</p>
 <ul>
-<li>OpenBao runs in dev mode</li>
-<li>The root token is always <code>root</code></li>
-<li>The secret data is in-memory only</li>
+<li>The encrypted OpenBao data, unseal key, and initial root token reside on the same persistent volume</li>
+<li>The auto-unsealer uses one key share with a threshold of one</li>
 <li>The Kubernetes auth role is intentionally broad</li>
 <li>Local ingress uses <code>traefik.me</code> convenience hostnames</li>
 </ul>
-<p>If OpenBao loses its pod or runtime state, you usually need to rerun:</p>
-<div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>bootstrap<span class="w"> </span>--local<span class="w"> </span>test-cluster
-</code></pre></div>
+<p>This protects the local evaluation environment from accidental pod and container-runtime restarts, but it is not a production security architecture. Production environments should keep unseal credentials outside the OpenBao storage system by using a supported KMS, HSM, or seal integration.</p>
 <h2 id="when-to-use-a-different-path">When to use a different path</h2>
 <p>Use one of the other infrastructure presets, or your own infrastructure, when you need:</p>
 <ul>
