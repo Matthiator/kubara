@@ -2845,7 +2845,7 @@ charts, custom scripts or others.</p>
 platform-components/terraform/&lt;provider&gt;/
 </code></pre></div>
 <p>kubara selects only the matching provider. It removes the provider selector from generated <code>platform-configs</code> paths and retains it in reusable <code>platform-components</code> module paths.</p>
-<p>When a cluster omits Terraform or uses <code>provider: none</code>, the default <code>kubara generate</code> run skips its Terraform templates and removes stale generated Terraform output for that cluster. Non-Terraform catalog assets are still copied.</p>
+<p>When a cluster omits Terraform or uses <code>provider: none</code>, the default <code>kubara generate</code> run skips its Terraform templates. Non-Terraform catalog assets are still copied. Existing generated Terraform output under <code>platform-configs/&lt;cluster&gt;/terraform/</code> is left untouched, so any files you keep there (for example Terraform state) are preserved; remove obsolete generated Terraform manually if you no longer need it.</p>
 <h2 id="where-to-go-next">Where to go next</h2>
 <ul>
 <li>To understand the catalog model: <a href="../catalogs/">Catalogs</a></li>
