@@ -780,6 +780,17 @@ You're not viewing the latest stable version.
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automatic-catalog-updates-with-renovate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic catalog updates with Renovate
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2682,6 +2693,17 @@ You're not viewing the latest stable version.
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automatic-catalog-updates-with-renovate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic catalog updates with Renovate
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2832,6 +2854,23 @@ kubara<span class="w"> </span>generate<span class="w"> </span>--catalog<span cla
 <div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>catalog<span class="w"> </span>unpackage<span class="w"> </span>oci://ghcr.io/acme/platform-catalogs/my-catalog:1.2.3<span class="w"> </span>./my-catalog
 </code></pre></div>
 <p>This is useful when you want to inspect or edit a catalog that was distributed through a registry.</p>
+<h2 id="automatic-catalog-updates-with-renovate">Automatic catalog updates with Renovate</h2>
+<p>You can automatically keep catalog versions up-to-date in your GitOps configuration using a custom Renovate configuration.</p>
+<p>Add the following settings to your <code>renovate.json</code> or GitOps repository's Renovate configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;customManagers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;customType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;regex&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Update kubara catalog OCI references&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;managerFilePatterns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/^config\\.yaml$/&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;matchStrings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;oci:\\/\\/(?&lt;depName&gt;[^\\s\&quot;&#39;@]+):(?&lt;currentValue&gt;[^\\s/:\&quot;&#39;@]+)(?:$|[\\s\&quot;&#39;#,}\\]])&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;datasourceTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;docker&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;versioningTemplate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;regex:^(?&lt;major&gt;0|[1-9]\\d*)\\.(?&lt;minor&gt;0|[1-9]\\d*)\\.(?&lt;patch&gt;0|[1-9]\\d*)$&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Adjust <code>managerFilePatterns</code> when the kubara config has a different repository-relative path. <code>kubara init</code> does this automatically for the configured <code>--config-file</code>. The reference matcher supports registries with ports and ignores digest-pinned catalog references.</p>
 
 
 

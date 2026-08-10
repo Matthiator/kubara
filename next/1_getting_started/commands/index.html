@@ -2505,13 +2505,14 @@ You're not viewing the latest stable version.
 <h2 id="init">init</h2>
 <p>Initialize kubara config for your GitOps repository</p>
 <blockquote>
-<p>kubara init [--prep] [--local]</p>
+<p>kubara init [--prep] [--local] [--renovate=false]</p>
 </blockquote>
 <p><strong>--envVarPrefix</strong>="": Prefix for envs read from envVars (default: "KUBARA_")</p>
 <p><strong>--help, -h</strong>: show help</p>
 <p><strong>--local</strong>: Initialize files for the local evaluation workflow. Local testing only; not for production use.</p>
 <p><strong>--overwrite</strong>: Overwrite config if exists</p>
 <p><strong>--prep</strong>: Copy embedded prep/ folder into current working directory</p>
+<p><strong>--renovate</strong>: Generate a Renovate configuration for kubara catalog updates if none exists</p>
 <h3 id="help-h">help, h</h3>
 <p>Shows a list of commands or help for one command</p>
 <h2 id="generate">generate</h2>

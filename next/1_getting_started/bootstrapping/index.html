@@ -2966,7 +2966,12 @@ platform will be publicly available by default via your DNS zone.</p>
 <div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>init
 </code></pre></div>
 <p>This command creates a <code>config.yaml</code> file based on the values from your <code>.env</code>.
-If you make changes to <code>.env</code> later, you can re-run the command with <code>--overwrite</code> to update the configuration.</p>
+It also creates a <code>renovate.json</code> in the working directory when no supported Renovate configuration exists. The generated custom manager keeps versioned OCI catalog references in this config up to date. Use <code>--renovate=false</code> if the repository does not use Renovate:</p>
+<div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>init<span class="w"> </span>--renovate<span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<p>For Renovate to discover the generated file, use the Git repository root as kubara's working directory. The generated file uses Renovate's <code>config:recommended</code> preset and enables automatic updates for kubara catalog versions in <code>config.yaml</code>. Renovate can also update other supported dependencies it detects in the repository.</p>
+<p>Kubara does not modify an existing Renovate configuration. In that case, <code>init</code> logs a warning and you can add the <a href="../../2_concepts/catalog_distribution/#automatic-catalog-updates-with-renovate">Renovate settings for catalog updates</a> manually.</p>
+<p>If you make changes to <code>.env</code> later, you can re-run the command with <code>--overwrite</code> to update the configuration.</p>
 <p>By default, the generated cluster references kubara's versioned general catalog. Use repeated <code>--catalog</code> flags to initialize it with a different ordered catalog set:</p>
 <div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--catalog<span class="w"> </span>./company-platform<span class="w"> </span><span class="se">\</span>
