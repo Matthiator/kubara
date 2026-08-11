@@ -2858,10 +2858,12 @@ You're not viewing the latest stable version.
 <h2 id="where-do-we-store-adrs">Where do we store ADRs?</h2>
 <p>ADRs are stored as <strong>Markdown files in the repository</strong> (versioned like code).</p>
 <p><strong>Location:</strong> <code>docs/content/10_decisions/</code></p>
-<p>This ensures ADRs are:
-- reviewable via PR
-- searchable in the codebase
-- permanently available alongside the implementation</p>
+<p>This ensures ADRs are:</p>
+<ul>
+<li>reviewable via PR</li>
+<li>searchable in the codebase</li>
+<li>permanently available alongside the implementation</li>
+</ul>
 <hr />
 <h2 id="adr-numbering-naming">ADR numbering &amp; naming</h2>
 <p>Each ADR receives a <strong>unique sequential number</strong> to ensure stable references.</p>
@@ -2878,10 +2880,12 @@ You're not viewing the latest stable version.
 <p>Example:
 <div class="highlight"><pre><span></span><code>ADR-0001-replace-deprecated-nginx-ingress.md
 </code></pre></div></p>
-<p><strong>Title guidelines:</strong>
-- lowercase
-- hyphen-separated
-- short and descriptive</p>
+<p><strong>Title guidelines:</strong></p>
+<ul>
+<li>lowercase</li>
+<li>hyphen-separated</li>
+<li>short and descriptive</li>
+</ul>
 <hr />
 <h2 id="adr-template">ADR template</h2>
 <p>To create a new ADR:  </p>
@@ -2894,20 +2898,28 @@ You're not viewing the latest stable version.
 <hr />
 <h2 id="how-we-use-adrs-in-kubara">How we use ADRs in kubara</h2>
 <h3 id="process-validated">Process (validated)</h3>
-<p><strong>Create proposal</strong>
-   - Engineer creates an ADR using the template
-   - Status: <code>proposed</code></p>
-<p><strong>Discuss and decide</strong>
-   - ADR is reviewed and discussed in the <strong>maintainer ADR meeting</strong>
-   - Decision is documented inside the ADR<br />
-   - Status becomes: <code>accepted</code> (if approved)</p>
-<p><strong>Implement</strong>
-   - Implementation starts <strong>after acceptance</strong>
-   - Changes are delivered via Pull Requests<br />
-   - Optional status during implementation: <code>active</code></p>
-<p><strong>Merge and persist</strong>
-   - ADR is merged into the repository (usually via PR)
-   - ADR becomes part of the official project documentation</p>
+<p><strong>Create proposal</strong></p>
+<ul>
+<li>Engineer creates an ADR using the template</li>
+<li>Status: <code>proposed</code></li>
+</ul>
+<p><strong>Discuss and decide</strong></p>
+<ul>
+<li>ADR is reviewed and discussed in the <strong>maintainer ADR meeting</strong></li>
+<li>Decision is documented inside the ADR  </li>
+<li>Status becomes: <code>accepted</code> (if approved)</li>
+</ul>
+<p><strong>Implement</strong></p>
+<ul>
+<li>Implementation starts <strong>after acceptance</strong></li>
+<li>Changes are delivered via Pull Requests  </li>
+<li>Optional status during implementation: <code>active</code></li>
+</ul>
+<p><strong>Merge and persist</strong></p>
+<ul>
+<li>ADR is merged into the repository (usually via PR)</li>
+<li>ADR becomes part of the official project documentation</li>
+</ul>
 <p>✅ This ensures the ADR captures the decision <strong>before or during implementation</strong>, not only afterwards.</p>
 <hr />
 <h2 id="adrs-and-pull-requests-issues">ADRs and Pull Requests / Issues</h2>
@@ -2921,9 +2933,11 @@ You're not viewing the latest stable version.
 <p>To keep ADRs discoverable, we maintain an <strong>ADR index page</strong> with a quick overview of 
 ADR number with link to the document, title and status. </p>
 <p><strong>Index page location:</strong> <a href="../ADR-index/">ADR-index</a> -&gt; <code>docs/content/10_decisions/ADR-index.md</code> </p>
-<p>The index can be maintained:
-- <strong>manually</strong> (simple table, best for a small number of ADRs), or
-- <strong>automatically</strong> via a small script in CI (recommended once the list grows)</p>
+<p>The index can be maintained:</p>
+<ul>
+<li><strong>manually</strong> (simple table, best for a small number of ADRs), or</li>
+<li><strong>automatically</strong> via a small script in CI (recommended once the list grows)</li>
+</ul>
 <hr />
 <h2 id="status-lifecycle">Status lifecycle</h2>
 <p>We use the following ADR status values:</p>
@@ -2936,13 +2950,15 @@ ADR number with link to the document, title and status. </p>
 </ul>
 <hr />
 <h2 id="quick-checklist-author">Quick checklist (author)</h2>
-<p>Before opening the PR, ensure:
-- [ ] file name follows <code>ADR-000X-...</code>
-- [ ] status is set to <code>proposed</code>
-- [ ] decision context is clear
-- [ ] alternatives are documented
-- [ ] consequences are explicitly stated
-- [ ] references/links are included (optional but recommended)</p>
+<p>Before opening the PR, ensure:</p>
+<ul>
+<li>[ ] file name follows <code>ADR-000X-...</code></li>
+<li>[ ] status is set to <code>proposed</code></li>
+<li>[ ] decision context is clear</li>
+<li>[ ] alternatives are documented</li>
+<li>[ ] consequences are explicitly stated</li>
+<li>[ ] references/links are included (optional but recommended)</li>
+</ul>
 <h2 id="see-also">See also</h2>
 <p>For creating proposals for new tools see <a href="https://github.com/kubara-io/kubara/blob/main/CONTRIBUTING.md#integration-requirements-catalogue" target="_blank" rel="noopener">here</a>.</p>
 

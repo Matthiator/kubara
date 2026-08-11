@@ -2675,11 +2675,13 @@ platform-components/helm/my-new-servie-in-a-long-dir-name/</p>
 <p>To use pre-configured processes (e.g. get secrets from vault) you can leverage the Chart <code>template-library</code> inside 
 <code>platform-components</code>.<br>
 Take a look at other chart to find out how to use these templates.<br>
-The general steps are:
-1. Add template-library as a dependency to your Chart.yaml
-2. add a template to your new Chart's "templates/" directory and include the templates you need from <code>template-libary</code> Chart
-   (check other Chart templates to find out how)
-3. update the new Chart's values and/or override values according to the templates you included</p>
+The general steps are:</p>
+<ol>
+<li>Add template-library as a dependency to your Chart.yaml</li>
+<li>add a template to your new Chart's "templates/" directory and include the templates you need from <code>template-libary</code> Chart
+   (check other Chart templates to find out how)</li>
+<li>update the new Chart's values and/or override values according to the templates you included</li>
+</ol>
 <h2 id="add-override-values-to-your-platform-configs"><strong>Add Override Values to your platform-configs</strong></h2>
 <p>Add Override Values to your <code>platform-configs</code>:<br>
 platform-configs/my-cluster/helm/my-new-servie-in-a-long-dir-name/values.generated.yaml</p>
