@@ -2806,7 +2806,10 @@ kubara<span class="w"> </span>catalog<span class="w"> </span>add<span class="w">
 <p>Only plain <code>major.minor.patch</code> is accepted.</p>
 <h2 id="step-3-log-into-the-registry">Step 3: Log into the registry</h2>
 <p>If your registry needs authentication, log in once:</p>
-<div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>catalog<span class="w"> </span>login<span class="w"> </span>-u<span class="w"> </span>my-github-user<span class="w"> </span>--password<span class="w"> </span>ghcr.io
+<div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>catalog<span class="w"> </span>login<span class="w"> </span>-u<span class="w"> </span>my-github-user<span class="w"> </span>--password<span class="w"> </span>my-password<span class="w"> </span>ghcr.io
+</code></pre></div>
+<p>or alternatively</p>
+<div class="highlight"><pre><span></span><code><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;%s&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GITHUB_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>kubara<span class="w"> </span>catalog<span class="w"> </span>login<span class="w"> </span>-u<span class="w"> </span>my-github-user<span class="w"> </span>--password-stdin<span class="w"> </span>ghcr.io
 </code></pre></div>
 <p>kubara stores registry credentials in:</p>
 <div class="highlight"><pre><span></span><code>$HOME/.kubara/credentials.json
@@ -2815,7 +2818,7 @@ kubara<span class="w"> </span>catalog<span class="w"> </span>add<span class="w">
 <ul>
 <li>username/password (interactive)</li>
 <li>password from stdin</li>
-<li>identity token (interactive)</li>
+<li>identity token from flag</li>
 <li>identity token from stdin</li>
 </ul>
 <h2 id="step-4-push-the-cached-catalog">Step 4: Push the cached catalog</h2>
