@@ -84,7 +84,7 @@ func (sm *SecretManager) createStackitClusterSecretStore(ctx context.Context, o 
 		return nil, nil, fmt.Errorf("infrastructure output reader is required")
 	}
 	if sm.client == nil || sm.client.Clientset == nil {
-		return nil, nil, fmt.Errorf("Kubernetes clientset is required")
+		return nil, nil, fmt.Errorf("kubernetes clientset is required")
 	}
 
 	infrastructureDir := filepath.Join(o.PlatformConfigs, o.ClusterConfig.Name, "terraform", "infrastructure")
@@ -164,7 +164,7 @@ func (sm *SecretManager) createStackitClusterSecretStore(ctx context.Context, o 
 
 func (sm *SecretManager) clusterSecretStoreExists(ctx context.Context, name string) (bool, error) {
 	if sm.client == nil || sm.client.DynamicClient == nil {
-		return false, fmt.Errorf("Kubernetes dynamic client is required")
+		return false, fmt.Errorf("kubernetes dynamic client is required")
 	}
 	_, err := sm.client.DynamicClient.Resource(clusterSecretStoreGVR).Get(ctx, name, metav1.GetOptions{})
 	if apierrors.IsNotFound(err) {
