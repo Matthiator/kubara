@@ -2449,6 +2449,17 @@ You're not viewing the latest stable version.
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#can-i-automatically-migrate-my-environments-to-kubara" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can I automatically migrate my environments to kubara?
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2724,6 +2735,17 @@ You're not viewing the latest stable version.
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#can-i-automatically-migrate-my-environments-to-kubara" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Can I automatically migrate my environments to kubara?
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2866,6 +2888,10 @@ Each serves a different purpose and can coexist in the same Argo CD setup.</p>
 <h2 id="what-happens-when-oauth2-proxy-is-disabled">What happens when OAuth2 Proxy is disabled?</h2>
 <p>If you choose to disable OAuth2 Proxy during setup, you skip the OAuth2 Proxy configuration steps as part of the bootstrapping guide.</p>
 <p>Since OAuth2 Proxy provides authentication for ingress routes, as a security measure no traefik routes will be deployed. Without them none of your apps will be publicly reachable until you configure an alternative authentication mechanism and deploy the routes yourself.</p>
+<hr />
+<h2 id="can-i-automatically-migrate-my-environments-to-kubara">Can I automatically migrate my environments to kubara?</h2>
+<p>Bad luck? Migration is always hard!</p>
+<p>Unfortunately, we haven't yet figured out how to implement a magic one-click migration button. Every environment has its own quirks and history, so moving to kubara means defining your desired state declaratively and onboarding your workloads step by step. Look at the bright side: it's the perfect excuse to clean up legacy technical debt!</p>
 
 
 

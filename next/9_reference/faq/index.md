@@ -139,3 +139,12 @@ Each serves a different purpose and can coexist in the same Argo CD setup.
 If you choose to disable OAuth2 Proxy during setup, you skip the OAuth2 Proxy configuration steps as part of the bootstrapping guide.
 
 Since OAuth2 Proxy provides authentication for ingress routes, as a security measure no traefik routes will be deployed. Without them none of your apps will be publicly reachable until you configure an alternative authentication mechanism and deploy the routes yourself.
+
+---
+
+## Can I automatically migrate my environments to kubara?
+
+Bad luck? Migration is always hard!
+
+Unfortunately, we haven't yet figured out how to implement a magic one-click migration button. Every environment has its own quirks and history, so moving to kubara means defining your desired state declaratively and onboarding your workloads step by step. Look at the bright side: it's the perfect excuse to clean up legacy technical debt!
+
