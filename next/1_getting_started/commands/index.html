@@ -2505,8 +2505,9 @@ You're not viewing the latest stable version.
 <h2 id="init">init</h2>
 <p>Initialize kubara config for your GitOps repository</p>
 <blockquote>
-<p>kubara init [--prep] [--local] [--renovate=false]</p>
+<p>kubara init [--prep] [--local] [--renovate=false] [--bootstrap-catalog PATH_OR_OCI]</p>
 </blockquote>
+<p><strong>--bootstrap-catalog</strong>="": Path to the bootstrap catalog directory or an OCI reference in the form oci://registry/repository:x.y.z</p>
 <p><strong>--envVarPrefix</strong>="": Prefix for envs read from envVars (default: "KUBARA_")</p>
 <p><strong>--help, -h</strong>: show help</p>
 <p><strong>--local</strong>: Initialize files for the local evaluation workflow. Local testing only; not for production use.</p>

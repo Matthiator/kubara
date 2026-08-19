@@ -2977,6 +2977,13 @@ It also creates a <code>renovate.json</code> in the working directory when no su
 <span class="w">  </span>--catalog<span class="w"> </span>./company-platform<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--catalog<span class="w"> </span>oci://ghcr.io/acme/platform-catalogs/security:1.4.0
 </code></pre></div>
+<p>Use <code>--bootstrap-catalog</code> when the new configuration should also reference a custom bootstrap catalog:</p>
+<div class="highlight"><pre><span></span><code>kubara<span class="w"> </span>init<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bootstrap-catalog<span class="w"> </span>./bootstrap<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--catalog<span class="w"> </span>./company-platform<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--catalog-overwrite
+</code></pre></div>
+<p>The bootstrap reference is stored in the root <code>bootstrapCatalog</code> field, while repeated <code>--catalog</code> values are stored on the generated cluster. Local paths are resolved relative to <code>--work-dir</code> when kubara loads them.</p>
 <p>When using <code>--overwrite</code>, only values from <code>.env</code> are replaced.
 Additional settings in your existing <code>config.yaml</code> are preserved and merged.
 This currently applies <strong>only to the first cluster entry</strong>.</p>
