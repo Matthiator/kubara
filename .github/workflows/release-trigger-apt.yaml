@@ -12,17 +12,22 @@ jobs:
   trigger-apt-repo:
     runs-on: ubuntu-latest
     steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
+        with:
+          app-id: ${{ secrets.RELEASE_GITHUB_APP_ID }}
+          private-key: ${{ secrets.RELEASE_GITHUB_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: |
+            apt
+
       - name: Trigger APT repository publish
         env:
-          APT_REPO_DISPATCH_TOKEN: ${{ secrets.APT_REPO_DISPATCH_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           set -euo pipefail
-
-          if [ -z "${APT_REPO_DISPATCH_TOKEN}" ]; then
-            echo "Missing secret: APT_REPO_DISPATCH_TOKEN" >&2
-            exit 1
-          fi
 
           if [ -z "${RELEASE_TAG}" ]; then
             echo "Missing release tag in release event payload" >&2
@@ -32,7 +37,7 @@ jobs:
           curl -fsSL \
             -X POST \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${APT_REPO_DISPATCH_TOKEN}" \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/kubara-io/apt/dispatches \
+            https://api.github.com/repos/${{ github.repository_owner }}/apt/dispatches \
             -d "{\"event_type\":\"publish-apt\",\"client_payload\":{\"release_tag\":\"${RELEASE_TAG}\"}}"
