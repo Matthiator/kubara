@@ -44,6 +44,7 @@ nav:
           - ExternalDNS: 6_components/network_external_dns.md
       - Security:
           - Certificates: 6_components/security_certificates.md
+          - Policies: 6_components/security_policies.md
       - Observability:
           - Dashboards: 6_components/observability_dashboards.md
           - Metrics: 6_components/observability_metrics.md
