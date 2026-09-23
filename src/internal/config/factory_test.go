@@ -57,7 +57,7 @@ func TestNewClusterFromEnv(t *testing.T) {
 		ArgoCD: ArgoCD{
 			SelfManaged: ArgoCDSelfManagedEnabled,
 			Repo: RepoProto{
-				AuthMode: envconfig.GitAuthModeHTTPS,
+				AuthMode: GitAuthModeHTTPS,
 				Git: &RepoType{
 					Configs: Repository{
 						URL:            "https://github.com/org/repo.git",

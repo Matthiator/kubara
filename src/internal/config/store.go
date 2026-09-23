@@ -155,27 +155,11 @@ func generateSchemaWithCatalog(cat catalog.Catalog) (map[string]any, error) {
 	}
 	ensureServiceConfigDefinition(schemaDoc)
 	allowDisabledTerraformSchema(schemaDoc)
-	requireRepositorySchema(schemaDoc)
 	if err := composeServiceSchema(schemaDoc, cat); err != nil {
 		return nil, fmt.Errorf("compose service schema: %w", err)
 	}
 
 	return schemaDoc, nil
-}
-
-func requireRepositorySchema(schemaDoc map[string]any) {
-	defs, ok := schemaDoc["$defs"].(map[string]any)
-	if !ok {
-		return
-	}
-	repo, ok := defs["RepoProto"].(map[string]any)
-	if !ok {
-		return
-	}
-	repo["anyOf"] = []any{
-		map[string]any{"required": []any{"git"}},
-		map[string]any{"required": []any{"oci"}},
-	}
 }
 
 func allowDisabledTerraformSchema(schemaDoc map[string]any) {

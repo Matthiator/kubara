@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"slices"
 
 	"github.com/kubara-io/kubara/internal/service"
@@ -88,6 +89,30 @@ const (
 	ArgoCDSelfManagedDisabled ArgoCDSelfManagedStatus = "disabled"
 )
 
+type GitAuthMode string
+
+const (
+	GitAuthModeHTTPS     GitAuthMode = "https"
+	GitAuthModeSSH       GitAuthMode = "ssh"
+	GitAuthModeGitHubApp GitAuthMode = "github-app"
+)
+
+func (m GitAuthMode) IsValid() bool {
+	switch m {
+	case GitAuthModeHTTPS, GitAuthModeSSH, GitAuthModeGitHubApp:
+		return true
+	default:
+		return false
+	}
+}
+
+func (m GitAuthMode) Validate() error {
+	if m == "" || m.IsValid() {
+		return nil
+	}
+	return fmt.Errorf("invalid git auth mode %q, supported modes: %s, %s, %s", m, GitAuthModeHTTPS, GitAuthModeSSH, GitAuthModeGitHubApp)
+}
+
 type ArgoCD struct {
 	SelfManaged ArgoCDSelfManagedStatus `json:"selfManaged,omitempty" yaml:"selfManaged,omitempty" jsonschema:"title=ArgoCD Self Managed,description=Whether the cluster manages its own bootstrap Argo CD installation.,enum=enabled,enum=disabled,default=enabled"`
 	Repo        RepoProto               `json:"repo" yaml:"repo" jsonschema:"required,title=ArgoCD Git Repository"`
@@ -95,10 +120,10 @@ type ArgoCD struct {
 }
 
 type RepoProto struct {
-	_        struct{}  `jsonschema:"minProperties=1,additionalProperties=false"`
-	AuthMode string    `json:"authMode,omitempty" yaml:"authMode,omitempty" jsonschema:"title=Git Auth Mode,description=Authentication mode kubara uses for the initial Argo CD Git repository secret.,enum=https,enum=ssh,enum=github-app,default=https"`
-	Git      *RepoType `json:"git,omitempty" yaml:"git,omitempty" jsonschema:"title=Git Repository"`
-	OCI      *RepoType `json:"oci,omitempty" yaml:"oci,omitempty" jsonschema:"title=Oci Repository"`
+	_        struct{}    `jsonschema:"minProperties=1,additionalProperties=false"`
+	AuthMode GitAuthMode `json:"authMode,omitempty" yaml:"authMode,omitempty" jsonschema:"title=Git Auth Mode,description=Authentication mode kubara uses for the initial Argo CD Git repository secret.,enum=https,enum=ssh,enum=github-app,default=https"`
+	Git      *RepoType   `json:"git,omitempty" yaml:"git,omitempty" jsonschema:"anyof_required=git,title=Git Repository"`
+	OCI      *RepoType   `json:"oci,omitempty" yaml:"oci,omitempty" jsonschema:"anyof_required=oci,title=Oci Repository"`
 }
 
 type RepoType struct {

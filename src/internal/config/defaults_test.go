@@ -89,7 +89,7 @@ func TestApplyDefaults_RepositoryTargetRevision(t *testing.T) {
 			{
 				ArgoCD: ArgoCD{
 					Repo: RepoProto{
-						AuthMode: "https",
+						AuthMode: GitAuthModeHTTPS,
 						Git: &RepoType{
 							Configs:    Repository{URL: "https://github.com/customer/repo.git"},
 							Components: Repository{URL: "https://github.com/managed/repo.git", TargetRevision: "release"},

@@ -19,7 +19,7 @@ func NewClusterFromEnvWithCatalog(e *envconfig.EnvMap, catalogOptions catalog.Lo
 	argoCD := ArgoCD{
 		SelfManaged: ArgoCDSelfManagedEnabled,
 		Repo: RepoProto{
-			AuthMode: e.GitAuthMode(),
+			AuthMode: GitAuthMode(e.GitAuthMode()),
 			Git: &RepoType{
 				Configs: Repository{
 					URL:            gitRepoURL,
@@ -133,7 +133,7 @@ func CreateSpokeScaffolding(name string, catalogOptions catalog.LoadOptions) Clu
 		ArgoCD: ArgoCD{
 			SelfManaged: ArgoCDSelfManagedEnabled,
 			Repo: RepoProto{
-				AuthMode: envconfig.GitAuthModeHTTPS,
+				AuthMode: GitAuthModeHTTPS,
 				Git: &RepoType{
 					Configs:    Repository{URL: "https://git.example.com/platform/repo.git", TargetRevision: "main"},
 					Components: Repository{URL: "https://git.example.com/platform/repo.git", TargetRevision: "main"},

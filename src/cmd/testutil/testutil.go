@@ -83,7 +83,7 @@ func CreateTestCluster(t *testing.T) config.Cluster {
 		ArgoCD: config.ArgoCD{
 			SelfManaged: config.ArgoCDSelfManagedEnabled,
 			Repo: config.RepoProto{
-				AuthMode: envconfig.GitAuthModeHTTPS,
+				AuthMode: config.GitAuthModeHTTPS,
 				Git: &config.RepoType{
 					Configs:    config.Repository{URL: "https://github.com/example/configs", TargetRevision: "main"},
 					Components: config.Repository{URL: "https://github.com/example/components", TargetRevision: "main"},

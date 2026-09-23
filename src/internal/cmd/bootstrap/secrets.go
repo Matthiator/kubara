@@ -93,17 +93,9 @@ func (sm *SecretManager) CreateHubSecrets(ctx context.Context, o *Options) error
 // createGitRepositorySecret creates the ArgoCD git repository secret
 func (sm *SecretManager) createGitRepositorySecret(em *envconfig.EnvMap) *corev1.Secret {
 	secretName := "https-init-repo-access"
-	switch em.GitAuthMode() {
-	case envconfig.GitAuthModeSSH:
-		secretName = "ssh-init-repo-access"
-	case envconfig.GitAuthModeGitHubApp:
-		secretName = "github-app-init-repo-access"
-	}
-
 	stringData := map[string]string{
 		"enableLfs": "true",
 		"insecure":  "false",
-		"name":      secretName,
 		"project":   fmt.Sprintf("%s-%s", em.ProjectName, em.ProjectStage),
 		"type":      "git",
 		"url":       em.GitRepositoryURL(),
@@ -111,8 +103,10 @@ func (sm *SecretManager) createGitRepositorySecret(em *envconfig.EnvMap) *corev1
 
 	switch em.GitAuthMode() {
 	case envconfig.GitAuthModeSSH:
+		secretName = "ssh-init-repo-access"
 		stringData["sshPrivateKey"] = em.ArgocdGitSshPrivateKey
 	case envconfig.GitAuthModeGitHubApp:
+		secretName = "github-app-init-repo-access"
 		stringData["githubAppID"] = em.ArgocdGitGithubAppID
 		stringData["githubAppInstallationID"] = em.ArgocdGitGithubAppInstallationID
 		stringData["githubAppPrivateKey"] = em.ArgocdGitGithubAppPrivateKey
@@ -126,6 +120,7 @@ func (sm *SecretManager) createGitRepositorySecret(em *envconfig.EnvMap) *corev1
 			stringData["forceHttpBasicAuth"] = "true"
 		}
 	}
+	stringData["name"] = secretName
 
 	return &corev1.Secret{
 		TypeMeta: metav1.TypeMeta{

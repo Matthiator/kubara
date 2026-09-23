@@ -42,7 +42,7 @@ func newValidTestConfig() *Config {
 				ArgoCD: ArgoCD{
 					SelfManaged: ArgoCDSelfManagedEnabled,
 					Repo: RepoProto{
-						AuthMode: "https",
+						AuthMode: GitAuthModeHTTPS,
 						Git: &RepoType{
 							Configs: Repository{
 								URL:            "https://github.com/example/configs.git",
@@ -622,6 +622,28 @@ func TestGenerateSchema_TerraformProviderNoneAllowsMissingTerraformDetails(t *te
 		"provider": "stackit",
 	}
 	assert.Error(t, compiled.Validate(invalidStackitConfig))
+}
+
+func TestGenerateSchema_RequiresGitOrOCI(t *testing.T) {
+	cs := createLoadedConfigStore(t, newValidTestConfig())
+	schemaDoc, err := cs.GenerateSchema()
+	require.NoError(t, err)
+
+	const schemaURL = "mem://config.schema.json"
+	c := schemaValidator.NewCompiler()
+	c.AssertFormat()
+	require.NoError(t, c.AddResource(schemaURL, schemaDoc))
+
+	compiled, err := c.Compile(schemaURL)
+	require.NoError(t, err)
+
+	invalidRepoConfig := configInstance(t, newValidTestConfig())
+	cluster := invalidRepoConfig["clusters"].([]any)[0].(map[string]any)
+	argoCD := cluster["argocd"].(map[string]any)
+	argoCD["repo"] = map[string]any{
+		"authMode": "https",
+	}
+	assert.Error(t, compiled.Validate(invalidRepoConfig))
 }
 
 func configInstance(t *testing.T, cfg *Config) map[string]any {
