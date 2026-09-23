@@ -2,20 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["customManagers:githubActionsVersions"],
   "addLabels": ["dependencies"],
-  "terraform": {
-    "fileMatch": ["\\.tf(\\.tplt)?$"]
-  },
   "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Update Docker image tags in Helm values templates",
-      "managerFilePatterns": ["/values\\.ya?ml\\.tplt$/"],
-      "matchStrings": [
-        "repository:\\s*[\"']?(?<depName>[^\"'\\s]+)[\"']?\\s*\\n\\s*tag:\\s*[\"']?(?<currentValue>[^\"'\\s]+)[\"']?"
-      ],
-      "datasourceTemplate": "docker",
-      "versioningTemplate": "docker"
-    },
     {
       "customType": "regex",
       "description": "Update built-in Kubara Catalog OCI references",
@@ -50,67 +37,37 @@
       "groupSlug": "kubara-catalogs"
     },
     {
-      "matchFiles": ["**/Chart.{yaml,yml}"],
-      "bumpVersions": [
-        {
-          "filePatterns": ["{{packageFileDir}}/Chart.{yaml,yml}"],
-          "matchStrings": ["version:\\s(?<version>[^\\s]+)"],
-          "bumpType": "{{#if isMajor}}major{{else if isMinor}}minor{{else}}patch{{/if}}"
-        }
-      ],
-      "postUpgradeTasks": {
-        "commands": [
-          "./.scripts/renovate_bot_update_helm_changelog.sh \"{{{depName}}}\" \"{{{currentVersion}}}\" \"{{{newVersion}}}\" \"{{{packageFileDir}}}\" \"{{#if isMajor}}major{{/if}}{{#if isMinor}}minor{{/if}}{{#if isPatch}}patch{{/if}}\""
-        ],
-        "fileFilters": ["**/CHANGELOG.md"],
-        "executionMode": "update"
-      }
-    },
-    {
       "description": "Run go mod tidy for all go module updates",
       "matchManagers": ["gomod"],
       "postUpdateOptions": ["gomodTidy"]
     },
     {
-      "description": "Group k8s.io go modules (minor and patch)",
+      "description": "Group go module updates (minor and patch)",
       "matchManagers": ["gomod"],
-      "matchPackagePrefixes": ["k8s.io/"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "k8s.io go modules",
-      "groupSlug": "k8s-io-go-modules"
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "Go modules (minor and patch)",
+      "groupSlug": "gomod-minor-patch"
     },
     {
-      "description": "Group sigs.k8s.io go modules (minor and patch)",
+      "description": "Group go module updates (major)",
       "matchManagers": ["gomod"],
-      "matchPackagePrefixes": ["sigs.k8s.io/"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "sigs.k8s.io go modules",
-      "groupSlug": "sigs-k8s-io-go-modules"
+      "matchUpdateTypes": ["major"],
+      "groupName": "Go modules (major)",
+      "groupSlug": "gomod-major"
     },
     {
-      "description": "Override: group controller-runtime with k8s.io modules because it follows the k8s.io/client-go minor",
-      "matchManagers": ["gomod"],
-      "matchPackageNames": ["sigs.k8s.io/controller-runtime"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "enabled": true,
-      "groupName": "k8s.io go modules",
-      "groupSlug": "k8s-io-go-modules"
+      "description": "Group GitHub Actions updates (minor and patch)",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest", "pinDigest"],
+      "groupName": "GitHub Actions (minor and patch)",
+      "groupSlug": "github-actions-minor-patch"
     },
     {
-      "description": "Group golang.org/x go modules (minor and patch)",
-      "matchManagers": ["gomod"],
-      "matchPackagePrefixes": ["golang.org/x/"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "golang.org/x go modules",
-      "groupSlug": "golang-org-x-go-modules"
-    },
-    {
-      "description": "Group koanf go modules (minor and patch)",
-      "matchManagers": ["gomod"],
-      "matchPackagePrefixes": ["github.com/knadh/koanf/"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "koanf go modules",
-      "groupSlug": "koanf-go-modules"
+      "description": "Group GitHub Actions updates (major)",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "groupName": "GitHub Actions (major)",
+      "groupSlug": "github-actions-major"
     }
   ]
 }
