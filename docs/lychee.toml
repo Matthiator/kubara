@@ -1,0 +1,21 @@
+# Check external resources only; MkDocs handles relative documentation links.
+scheme = ["http", "https"]
+no_progress = true
+timeout = 20
+max_retries = 2
+max_concurrency = 8
+
+# Documentation includes local development URLs.
+exclude_loopback = true
+
+exclude = [
+    # Intentional Forgejo placeholder in the SSO example.
+    '^https://yourproject\.git\.onstackit\.cloud/?$',
+    # This community channel redirects to a Slack authentication page.
+    '^https://kubernetes\.slack\.com/archives/C0B2X0DLPR6/?$',
+    # These articles intermittently return 403 to automated requests.
+    '^https://kccncna2025\.sched\.com/event/27Ff2/[^\s]*$',
+    '^https://medium\.com/itnext/gitops-for-15-000-clusters-what-large-scale-testing-with-vcluster-taught-us-41e4b0d43e0b/?$',
+    '^https://medium\.com/itnext/how-we-load-test-argo-cd-at-scale-1-000-vclusters-with-gitops-on-kubernetes-d8ea2a8935b6/?$',
+    '^https://medium\.com/itnext/from-ci-to-kubernetes-catalog-building-a-composable-platform-with-gitops-and-vcluster-7e1decaa81da/?$',
+]
